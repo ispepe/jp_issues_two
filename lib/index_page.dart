@@ -1,14 +1,51 @@
-{
-  "bg_image": "bg",
-  "width": 1920,
-  "height": 1080,
-  "side_entities": [
-    {
-      "type": "side",
-      "title": "side",
-      "width": 1920,
-      "height": 1080,
-      "frames": [
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class IndexPage extends StatefulWidget {
+  const IndexPage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _IndexPageState createState() => _IndexPageState();
+}
+
+class _IndexPageState extends State<IndexPage>
+    with AutomaticKeepAliveClientMixin {
+  int max = 0;
+
+  int _forward = 0;
+
+  int _currentIndex = 0;
+
+  bool _isLoading = true;
+
+  List<MemoryImage> images = [];
+
+  int get currentIndex => _currentIndex;
+
+  List<String> _frames;
+
+  int getFrame(int forward) {
+    _currentIndex += forward;
+
+    if (_currentIndex > max - 1) {
+      _currentIndex = 0;
+    } else if (_currentIndex < 1) {
+      _currentIndex = max - 1;
+    }
+
+    return _currentIndex;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _frames = [
         "side/big/0000.jpg",
         "side/big/0001.jpg",
         "side/big/0002.jpg",
@@ -130,7 +167,70 @@
         "side/big/0118.jpg",
         "side/big/0119.jpg",
         "side/big/0120.jpg"
-      ]
+      ];
+
+      max = _frames?.length;
+      loadImages().then((value) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final size = MediaQuery.of(context).size;
+    if (_isLoading) {
+      return Container(
+        child: Text('loading...'),
+      );
     }
-  ]
+
+    List<Widget> childes = [_buildImage(size)];
+
+    /// 如果当前热点分组是全部配套，则默认显示
+
+    return Container(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onHorizontalDragUpdate: (DragUpdateDetails details) {
+          if (details.delta == Offset.zero) return;
+          if (mounted) {
+            setState(() {
+              _forward = getFrame((details.delta.dx < 0 ? 1 : -1));
+            });
+          }
+        },
+        child: Stack(
+          children: childes,
+        ), //
+      ),
+    );
+  }
+
+  Widget _buildImage(Size size) {
+    return RepaintBoundary(
+      child: Image(
+          gaplessPlayback: true,
+          width: size.width,
+          height: size.height,
+          fit: BoxFit.fill,
+          image: images[_forward]),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  /// NOTE: 9/7/20 待注意 它有一定机率会因为housePage页面而重新加载
+  Future<void> loadImages() async {
+    images.clear();
+    for (var frame in _frames) {
+      final ByteData bytes = await rootBundle.load('assets/images/$frame');
+      final Uint8List data = bytes.buffer.asUint8List();
+      images.add(MemoryImage(data.buffer.asUint8List()));
+    }
+  }
 }

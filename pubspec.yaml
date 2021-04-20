@@ -30,77 +30,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  # 状态管理 flutter_bloc 有依赖
-  provider: ^5.0.0
-
-  # bloc模式
-  #  flutter_bloc: ^3.2.0
-  equatable: ^2.0.0
-  #  # 网络库 https://github.com/flutterchina/dio
-  #  dio: ^4.0.0
-
-  # 验证码输入框
-  pin_input_text_field: ^4.0.0
-
-  # 本地存储
-  shared_preferences: ^2.0.4
-  # event bus
-  event_bus: ^2.0.0
-
-  # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
-  oktoast: ^3.0.0
-  # 二维码生成与识别 https://github.com/lukef/qr.flutter
-  qr_flutter: ^4.0.0
-  transparent_image: ^1.0.0
-
-  # call phone
-  url_launcher: ^5.7.10
-
-  # flutter_webview_plugin no support flutter for web
-  #  flutter_webview_plugin: ^0.3.10+1
-
-  # 图片查看器
-  photo_view: ^0.11.1
-
-  # 缓存图片
-  flutter_spinkit: ^5.0.0
-
-  # web支持的音频播放插件
-  #  assets_audio_player: ^1.4.4
-  #  assets_audio_player_web: ^1.4.4
-
-  # 动画
-  animations: ^2.0.0
-
-  # UI占位符
-  #  shimmer: ^1.1.1
-
-  # 判断浏览器（url_launcher_web采用该插件分辨不同的浏览器)
-  platform_detect: ^1.4.0
-
-  fading_edge_scrollview: ^2.0.0
-
-  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
-  common_utils: ^2.0.2
-
-  # 屏幕适配工具
-  flutter_screenutil: 4.0.3+3
-
-  carousel_slider: ^3.0.0
-
-  statsfl: ^1.1.0+3
-
-  # 视频播放插件 https://github.com/flutter/plugins/tree/master/packages/video_player/video_player
-  video_player: ^2.0.2
-
-  path_provider: ^2.0.1
-
-  archive: ^3.1.2
-
-  # 防止在Web中被底层的HtmlElementView捕获到鼠标事件
-  pointer_interceptor: ^0.9.0
-
-  cached_network_image: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -121,9 +50,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/side/big/
-#    - assets/fonts/
-    - assets/data/
-    #    - assets/krpano-tour.zip
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
